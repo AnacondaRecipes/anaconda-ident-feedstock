@@ -1,15 +1,13 @@
 {% set name = "anaconda-ident" %}
-{% set version = "0.5.0" %}
+{% set version = "0.6.1" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  git_url: https://github.com/Anaconda-Platform/{{ name }}.git
-  # Use this for local builds:
-  # git_url: git@github.com:Anaconda-Platform/anaconda-ident.git
-  git_tag: {{ version }}
+  url: https://github.com/anaconda/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: d1891bc24cefc2d0449c93d35fa89d10f9c01093bddbca3d59595a45946f2379
 
 build:
   number: 0
@@ -31,9 +29,9 @@ requirements:
   run:
     - python
     - conda >=23.7.1
-    - anaconda-anon-usage >=0.6.1,<1
+    - anaconda-anon-usage >=0.7.3,<1
   run_constrained:
-    - anaconda_client >=1.12.2
+    - anaconda_client >=1.13.1
 
 test:
   requires:
@@ -41,6 +39,8 @@ test:
     - proxyspy
   source_files:
     - tests/
+  imports:
+    - anaconda_ident
   commands:
     - pip check
     - if not exist %CONDA_PREFIX%\\etc\\conda\\activate.d\\anaconda-ident_activate.bat exit 1  # [win]
