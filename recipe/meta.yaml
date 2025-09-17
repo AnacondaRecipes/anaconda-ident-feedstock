@@ -1,22 +1,19 @@
 {% set name = "anaconda-ident" %}
-{% set version = "0.5.0" %}
+{% set version = "0.6.1" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  git_url: https://github.com/Anaconda-Platform/{{ name }}.git
-  # Use this for local builds:
-  # git_url: git@github.com:Anaconda-Platform/anaconda-ident.git
-  git_tag: {{ version }}
+  url: https://github.com/anaconda/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: d1891bc24cefc2d0449c93d35fa89d10f9c01093bddbca3d59595a45946f2379
 
 build:
   number: 0
   entry_points:
     - anaconda-ident = anaconda_ident.install:main
     - anaconda-keymgr = anaconda_ident.keymgr:main
-    - anaconda-heartbeat = anaconda_ident.heartbeat:main
     - anaconda-ident-hash = anaconda_ident.tokens:main
   skip: True  # [py<36]
 
@@ -31,9 +28,9 @@ requirements:
   run:
     - python
     - conda >=23.7.1
-    - anaconda-anon-usage >=0.6.1,<1
+    - anaconda-anon-usage >=0.7.3,<1
   run_constrained:
-    - anaconda_client >=1.12.2
+    - anaconda_client >=1.13.1
 
 test:
   requires:
@@ -41,6 +38,8 @@ test:
     - proxyspy
   source_files:
     - tests/
+  imports:
+    - anaconda_ident
   commands:
     - pip check
     - if not exist %CONDA_PREFIX%\\etc\\conda\\activate.d\\anaconda-ident_activate.bat exit 1  # [win]
@@ -54,10 +53,10 @@ test:
     - set ANACONDA_IDENT_DEBUG=1  # [win]
     - set PYTHONUNBUFFERED=1  # [win]
     - anaconda-ident --expect
-    - conda create -n testchild1 --yes
-    - conda create -n testchild2 --yes
-    - conda info
-    - conda info --envs
+    - python -m conda create -n testchild1 --yes
+    - python -m conda create -n testchild2 --yes
+    - python -m conda info
+    - python -m conda info --envs
     - anaconda-keymgr --help
     - anaconda-ident-hash --help
     - python tests/test_config.py
