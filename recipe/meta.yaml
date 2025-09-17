@@ -14,7 +14,6 @@ build:
   entry_points:
     - anaconda-ident = anaconda_ident.install:main
     - anaconda-keymgr = anaconda_ident.keymgr:main
-    - anaconda-heartbeat = anaconda_ident.heartbeat:main
     - anaconda-ident-hash = anaconda_ident.tokens:main
   skip: True  # [py<36]
 
@@ -54,10 +53,10 @@ test:
     - set ANACONDA_IDENT_DEBUG=1  # [win]
     - set PYTHONUNBUFFERED=1  # [win]
     - anaconda-ident --expect
-    - conda create -n testchild1 --yes
-    - conda create -n testchild2 --yes
-    - conda info
-    - conda info --envs
+    - python -m conda create -n testchild1 --yes
+    - python -m conda create -n testchild2 --yes
+    - python -m conda info
+    - python -m conda info --envs
     - anaconda-keymgr --help
     - anaconda-ident-hash --help
     - python tests/test_config.py
