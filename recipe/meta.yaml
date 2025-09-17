@@ -1,23 +1,24 @@
 {% set name = "anaconda-ident" %}
-{% set version = "0.6.1" %}
-{% set sha256 = "d1891bc24cefc2d0449c93d35fa89d10f9c01093bddbca3d59595a45946f2379" %}
-{% set number = 0 %}
+{% set version = "0.5.0" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://github.com/anaconda/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  git_url: https://github.com/Anaconda-Platform/{{ name }}.git
+  # Use this for local builds:
+  # git_url: git@github.com:Anaconda-Platform/anaconda-ident.git
+  git_tag: {{ version }}
 
 build:
-  number: {{ number }}
+  number: 0
   entry_points:
     - anaconda-ident = anaconda_ident.install:main
     - anaconda-keymgr = anaconda_ident.keymgr:main
     - anaconda-heartbeat = anaconda_ident.heartbeat:main
     - anaconda-ident-hash = anaconda_ident.tokens:main
+  skip: True  # [py<36]
 
 requirements:
   build:
@@ -30,9 +31,9 @@ requirements:
   run:
     - python
     - conda >=23.7.1
-    - anaconda-anon-usage >=0.7.3,<1
+    - anaconda-anon-usage >=0.6.1,<1
   run_constrained:
-    - anaconda_client >=1.13.1
+    - anaconda_client >=1.12.2
 
 test:
   requires:
