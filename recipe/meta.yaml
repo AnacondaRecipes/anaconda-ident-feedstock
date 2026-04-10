@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://github.com/anaconda/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
-  sha256: d1891bc24cefc2d0449c93d35fa89d10f9c01093bddbca3d59595a45946f2379
+  sha256: 8f10a1b836eab6b8415360ba6b36295595d3a1fe8e083571e0edede547ad0caf
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - anaconda-ident = anaconda_ident.install:main
     - anaconda-keymgr = anaconda_ident.keymgr:main
